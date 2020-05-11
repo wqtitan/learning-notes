@@ -1,6 +1,6 @@
 ## 闭包
 
-- 三行a,b,c的输出分别是什么？
+- 三行a, b, c的输出分别是什么？
 
 ```javascript
 function fun(n,o){
@@ -15,66 +15,17 @@ function fun(n,o){
 var a = fun(0);a.fun(1);a.fun(2);a.fun(3);
 var b = fun(0).fun(1).fun(2).fun(3);
 var c = fun(0).fun(1);c.fun(2);c.fun(3);
-
-//undefined 0 0 0 
-
-//undefined 0 1 2
-
-//undefined 0 1 1
 ```
 
+`fun(n,o)`返回一个对象，此对象中有一个fun方法，这个fun(m, n)中的n参数从外部fun(n,o)获取n值。
 
+答案：
 
-解：
+undefined 0 0 0 
 
-`var a = fun(0);`调用`fun(n,o)`，
+undefined 0 1 2
 
-`n=0`，`o=undefined`，
-
-所以`console.log(undefined);`，先输出一个`undefined`，
-
-`fun(n,o)`返回一个对象，
-
-所以 
-
-```javascript
-a = {
-    fun:function(m){
-        return fun(m,0);    // n从外层函数作用域中获得0
-    }
-}
-
-a.fun(1);
-// 相当于
-//  控制台先输出 undefined
-fun(1, 0);    //  控制台输出 0
-
-// 也就是
-fun(0).fun(1);
-// 相当于
-//  控制台先输出 undefined
-fun(1, 0);  //  控制台输出 0
-
-fun(0).fun(1).fun(2);
-// 相当于
-//  控制台先输出 undefined
-fun(1, 0).fun(2);  //  控制台输出 0
-fun(2, 1);  //  控制台输出 1
-
-
-var b = fun(0).fun(1).fun(2).fun(3);
-// 相当于
-//  控制台先输出 undefined
-fun(1, 0).fun(2).fun(3);  //  控制台输出 0
-fun(2, 1).fun(3);  //  控制台输出 1
-fun(3, 2);  //  控制台输出 2
-
-
-var c = fun(0).fun(1);c.fun(2);c.fun(3);
-// c.fun(2);   c.fun(3); 输出相同,相当于
-fun(0).fun(1).fun(2);
-fun(0).fun(1).fun(3);
-```
+undefined 0 1 1
 
 
 
@@ -145,5 +96,27 @@ for (var i = 0; i < 3; i++) {
         console.log(i);  
   } , 100);  
 }
+```
+
+- 1
+
+```javascript
+function Foo() {
+    getName = function () { alert (1); };
+    return this;
+}
+Foo.getName = function () { alert (2);};
+Foo.prototype.getName = function () { alert (3);};
+var getName = function () { alert (4);};
+function getName() { alert (5);}
+ 
+//请写出以下输出结果：
+Foo.getName();
+getName();
+Foo().getName();
+getName();
+new Foo.getName();
+new Foo().getName();
+new new Foo().getName();
 ```
 
